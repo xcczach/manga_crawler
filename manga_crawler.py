@@ -23,7 +23,6 @@ def start():
 def get_catelog_url_1kkk(manga_name):
     browser.get(URL_1KKK)
     wait = WebDriverWait(browser, 100)
-    wait.until(lambda driver: driver.find_element(By.ID, "txtKeywords") and driver.find_element(By.ID, "btnSearch"))
     search_input = browser.find_element(By.ID, "txtKeywords")
     search_button = browser.find_element(By.ID, "btnSearch")
     original_search_url = search_button.get_attribute("href")
@@ -50,22 +49,15 @@ def get_catelog_1kkk(catelog_url):
 
 def get_chapter_1kkk(chapter_url, img_prefix):
     def chapter_wait_img_strategy(driver):
-        return driver.find_element(By.ID, "cp_image") and driver.find_element(By.ID, "imgloading").get_attribute("style").find("display: none;") != -1
+        return driver.find_element(By.ID, "imgloading").get_attribute("style").find("display: none;") != -1
 
     def chapter_wait_all_imgs_strategy(driver):
         return driver.find_element(By.ID, "imgloading").get_attribute("style").find("display: none;") != -1
-
-    def chapter_wait_next_button_strategy(driver):
-        return driver.find_element(By.XPATH,"//a[text()='下一页']")
-
-    def chapter_wait_page_chapter_switch_strategy(driver):
-        return driver.find_element(By.CLASS_NAME, "view-paging")
     
     chapter_url = f"{URL_1KKK}{chapter_url}"
     browser.set_window_size(9999, 999900)
     browser.get(chapter_url)
     chapter_wait = WebDriverWait(browser, 100)
-    chapter_wait.until(chapter_wait_page_chapter_switch_strategy)
     try:
         last_page_button = browser.find_element(By.XPATH,"//div[@id='chapterpager']/*[last()]")
     except NoSuchElementException:
@@ -77,7 +69,6 @@ def get_chapter_1kkk(chapter_url, img_prefix):
             chapter_wait.until(chapter_wait_img_strategy)
             chapter_img = browser.find_element(By.ID, "cp_image")
             chapter_img.screenshot(f"{img_prefix}{page_index}.png")
-            chapter_wait.until(chapter_wait_next_button_strategy)
             next_page_button = browser.find_element(By.XPATH,"//a[text()='下一页']")
             try:
                 next_page_button.click()
