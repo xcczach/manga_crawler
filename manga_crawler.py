@@ -12,6 +12,31 @@ chrome_options = Options()
 chrome_options.add_argument("--headless")
 browser = webdriver.Chrome(options=chrome_options)
 
+def quit():
+    browser.quit()
+
+def start():
+    global browser
+    browser = webdriver.Chrome(options=chrome_options)
+
+
+def get_catelog_url_1kkk(manga_name):
+    browser.get(URL_1KKK)
+    wait = WebDriverWait(browser, 100)
+    wait.until(lambda driver: driver.find_element(By.ID, "txtKeywords") and driver.find_element(By.ID, "btnSearch"))
+    search_input = browser.find_element(By.ID, "txtKeywords")
+    search_button = browser.find_element(By.ID, "btnSearch")
+    original_search_url = search_button.get_attribute("href")
+    search_input.send_keys(manga_name)
+    wait.until(lambda driver: driver.find_element(By.ID, "btnSearch").get_attribute("href") != original_search_url)
+    browser.get(browser.find_element(By.ID, "btnSearch").get_attribute("href"))
+    try:
+        title_link = browser.find_element(By.CLASS_NAME, "mt70").find_element(By.CLASS_NAME, "title").find_element(By.TAG_NAME, "a")
+        manga_url = "/"+title_link.get_attribute("href").split("/")[-2]+"/"
+    except NoSuchElementException:
+        manga_url = None
+    return manga_url
+
 def get_catelog_1kkk(catelog_url):
     catelog_url = f"{URL_1KKK}{catelog_url}"
     catelog_response = requests.get(catelog_url)
