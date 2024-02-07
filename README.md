@@ -13,3 +13,13 @@ catelog_url = mc.get_catelog_url_1kkk("我推的孩子")
 chapter_url = mc.get_catelog_1kkk(catelog_url)[0]["url"]
 mc.get_chapter_1kkk(chapter_url, "推子")
 ```
+## Command Line
+```bash
+python manga_crawler.py catelog-url 我推的孩子
+python manga_crawler.py catelog 我推的孩子
+python manga_crawler.py catelog /manhua58810/
+python manga_crawler.py chapter 我推的孩子 10
+python manga_crawler.py chapter /manhua58810/ 10
+python manga_crawler.py manga 我推的孩子
+python manga_crawler.py manga /manhua58810/
+```
