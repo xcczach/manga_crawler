@@ -108,11 +108,13 @@ if __name__ == "__main__":
         try:
             if args[1] == "catelog-url":
                 print(get_catelog_url_1kkk(args[2]))
+                failed = False
             elif args[1] == "catelog":
                 if re.match(r"/manhua\d+/", args[2]):
                     print(get_catelog_1kkk(args[2]))
                 else:
                     print(get_catelog_1kkk(get_catelog_url_1kkk(args[2])))
+                failed = False
             elif args[1] == "chapter":
                 catelog = None
                 if re.match(r"/manhua\d+/", args[2]):
@@ -121,7 +123,6 @@ if __name__ == "__main__":
                     catelog = get_catelog_1kkk(get_catelog_url_1kkk(args[2]))
                 print(catelog)
                 chapter_url = catelog[int(args[3])]["url"]
-                failed = True
                 while failed:
                     try:
                         get_chapter_1kkk(chapter_url, f"{args[4]}_{args[3]}_" if len(args) > 4 else f"manga_{args[3]}_")
