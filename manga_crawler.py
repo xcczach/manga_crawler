@@ -103,42 +103,47 @@ import re
 from selenium.common.exceptions import TimeoutException
 if __name__ == "__main__":
     args = sys.argv
-    if args[1] == "catelog-url":
-        print(get_catelog_url_1kkk(args[2]))
-    elif args[1] == "catelog":
-        if re.match(r"/manhua\d+/", args[2]):
-            print(get_catelog_1kkk(args[2]))
-        else:
-            print(get_catelog_1kkk(get_catelog_url_1kkk(args[2])))
-    elif args[1] == "chapter":
-        catelog = None
-        if re.match(r"/manhua\d+/", args[2]):
-            catelog = get_catelog_1kkk(args[2])
-        else:
-            catelog = get_catelog_1kkk(get_catelog_url_1kkk(args[2]))
-        print(catelog)
-        chapter_url = catelog[int(args[3])]["url"]
-        failed = True
-        while failed:
-            try:
-                get_chapter_1kkk(chapter_url, f"{args[4]}_{args[3]}_" if len(args) > 4 else f"manga_{args[3]}_")
-                failed = False
-            except TimeoutException:
+    failed = True
+    while failed:
+        try:
+            if args[1] == "catelog-url":
+                print(get_catelog_url_1kkk(args[2]))
+            elif args[1] == "catelog":
+                if re.match(r"/manhua\d+/", args[2]):
+                    print(get_catelog_1kkk(args[2]))
+                else:
+                    print(get_catelog_1kkk(get_catelog_url_1kkk(args[2])))
+            elif args[1] == "chapter":
+                catelog = None
+                if re.match(r"/manhua\d+/", args[2]):
+                    catelog = get_catelog_1kkk(args[2])
+                else:
+                    catelog = get_catelog_1kkk(get_catelog_url_1kkk(args[2]))
+                print(catelog)
+                chapter_url = catelog[int(args[3])]["url"]
                 failed = True
+                while failed:
+                    try:
+                        get_chapter_1kkk(chapter_url, f"{args[4]}_{args[3]}_" if len(args) > 4 else f"manga_{args[3]}_")
+                        failed = False
+                    except TimeoutException:
+                        failed = True
 
-    elif args[1] == "manga":
-        catelog = None
-        if re.match(r"/manhua\d+/", args[2]):
-            catelog = get_catelog_1kkk(args[2])
-        else:
-            catelog = get_catelog_1kkk(get_catelog_url_1kkk(args[2]))
-        print(catelog)
-        for i, chapter in enumerate(catelog):
-            failed = True
-            while failed:
-                try:
-                    get_chapter_1kkk(chapter["url"], f"{args[3]}_{i}_" if len(args) > 3 else f"manga_{i}_")
-                    failed = False
-                except TimeoutException:
+            elif args[1] == "manga":
+                catelog = None
+                if re.match(r"/manhua\d+/", args[2]):
+                    catelog = get_catelog_1kkk(args[2])
+                else:
+                    catelog = get_catelog_1kkk(get_catelog_url_1kkk(args[2]))
+                print(catelog)
+                for i, chapter in enumerate(catelog):
                     failed = True
+                    while failed:
+                        try:
+                            get_chapter_1kkk(chapter["url"], f"{args[3]}_{i}_" if len(args) > 3 else f"manga_{i}_")
+                            failed = False
+                        except TimeoutException:
+                            failed = True
+        except TimeoutException:
+            failed = True
             
