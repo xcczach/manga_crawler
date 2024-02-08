@@ -103,6 +103,7 @@ import re
 from selenium.common.exceptions import TimeoutException
 if __name__ == "__main__":
     args = sys.argv
+    sys.stdout = open(1, 'w', encoding='utf-8', closefd=False)
     failed = True
     while failed:
         try:
