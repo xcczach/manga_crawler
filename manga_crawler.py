@@ -124,7 +124,7 @@ if __name__ == "__main__":
                     chapter_num = re.search(r"\d+", chapter_url).group(0)
                     while failed:
                         try:
-                            get_chapter_1kkk(chapter_url, f"{args[3]}_{chapter_num}_" if len(args) > 3 else f"manga_{chapter_ind}_")
+                            get_chapter_1kkk(chapter_url, f"{args[3]}_{chapter_num}_" if len(args) > 3 else f"manga_{chapter_num}_")
                             failed = False
                         except TimeoutException:
                             failed = True
