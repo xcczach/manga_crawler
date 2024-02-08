@@ -130,14 +130,15 @@ if __name__ == "__main__":
                             failed = True
                 else:
                     catelog = get_catelog_1kkk(get_catelog_url_1kkk(args[2]))
-                print(catelog)
-                chapter_url = catelog[int(args[3])]["url"]
-                while failed:
-                    try:
-                        get_chapter_1kkk(chapter_url, f"{args[4]}_{int(args[3])+1}_" if len(args) > 4 else f"manga_{int(args[3])+1}_")
-                        failed = False
-                    except TimeoutException:
-                        failed = True
+                if catelog is not None:
+                    print(catelog)
+                    chapter_url = catelog[int(args[3])]["url"]
+                    while failed:
+                        try:
+                            get_chapter_1kkk(chapter_url, f"{args[4]}_{int(args[3])+1}_" if len(args) > 4 else f"manga_{int(args[3])+1}_")
+                            failed = False
+                        except TimeoutException:
+                            failed = True
 
             elif args[1] == "manga":
                 catelog = None
