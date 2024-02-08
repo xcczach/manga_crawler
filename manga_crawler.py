@@ -119,13 +119,22 @@ if __name__ == "__main__":
                 catelog = None
                 if re.match(r"/manhua\d+/", args[2]):
                     catelog = get_catelog_1kkk(args[2])
+                elif re.match(r"/ch\d+-\d+", args[2]):
+                    chapter_url = args[2]
+                    chapter_ind = re.search(r"\d+", chapter_url).group(0)
+                    while failed:
+                        try:
+                            get_chapter_1kkk(chapter_url, f"{args[3]}_{chapter_ind}_" if len(args) > 3 else f"manga_{chapter_ind}_")
+                            failed = False
+                        except TimeoutException:
+                            failed = True
                 else:
                     catelog = get_catelog_1kkk(get_catelog_url_1kkk(args[2]))
                 print(catelog)
                 chapter_url = catelog[int(args[3])]["url"]
                 while failed:
                     try:
-                        get_chapter_1kkk(chapter_url, f"{args[4]}_{args[3]}_" if len(args) > 4 else f"manga_{args[3]}_")
+                        get_chapter_1kkk(chapter_url, f"{args[4]}_{int(args[3])+1}_" if len(args) > 4 else f"manga_{int(args[3])+1}_")
                         failed = False
                     except TimeoutException:
                         failed = True
@@ -141,7 +150,7 @@ if __name__ == "__main__":
                     failed = True
                     while failed:
                         try:
-                            get_chapter_1kkk(chapter["url"], f"{args[3]}_{i}_" if len(args) > 3 else f"manga_{i}_")
+                            get_chapter_1kkk(chapter["url"], f"{args[3]}_{i+1}_" if len(args) > 3 else f"manga_{i+1}_")
                             failed = False
                         except TimeoutException:
                             failed = True

@@ -18,8 +18,9 @@ mc.get_chapter_1kkk(chapter_url, "推子")
 python manga_crawler.py catelog-url 我推的孩子
 python manga_crawler.py catelog 我推的孩子
 python manga_crawler.py catelog /manhua58810/
-python manga_crawler.py chapter 我推的孩子 10
-python manga_crawler.py chapter /manhua58810/ 10
-python manga_crawler.py manga 我推的孩子
-python manga_crawler.py manga /manhua58810/
+python manga_crawler.py chapter /ch37-1121551/ (prefix)
+python manga_crawler.py chapter 我推的孩子 10 (prefix)
+python manga_crawler.py chapter /manhua58810/ 10 (prefix)
+python manga_crawler.py manga 我推的孩子 (prefix)
+python manga_crawler.py manga /manhua58810/ (prefix)
 ```
