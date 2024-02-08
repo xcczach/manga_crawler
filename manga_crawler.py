@@ -121,10 +121,10 @@ if __name__ == "__main__":
                     catelog = get_catelog_1kkk(args[2])
                 elif re.match(r"/ch\d+-\d+", args[2]):
                     chapter_url = args[2]
-                    chapter_ind = re.search(r"\d+", chapter_url).group(0)
+                    chapter_num = re.search(r"\d+", chapter_url).group(0)
                     while failed:
                         try:
-                            get_chapter_1kkk(chapter_url, f"{args[3]}_{chapter_ind}_" if len(args) > 3 else f"manga_{chapter_ind}_")
+                            get_chapter_1kkk(chapter_url, f"{args[3]}_{chapter_num}_" if len(args) > 3 else f"manga_{chapter_ind}_")
                             failed = False
                         except TimeoutException:
                             failed = True
